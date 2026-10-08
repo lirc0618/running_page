@@ -20,8 +20,13 @@ const YearsStat = ({ year, onClick }: { year: string, onClick: (_year: string) =
         </p>
       </section>
       <hr color="red" />
-      {yearsArrayUpdate.map((year) => (
-        <YearStat key={year} year={year} onClick={onClick} />
+      {yearsArrayUpdate.map((statYear) => (
+        <YearStat
+          key={statYear}
+          year={statYear}
+          onClick={onClick}
+          isSelected={statYear === year}
+        />
       ))}
       {// eslint-disable-next-line no-prototype-builtins
         yearsArrayUpdate.hasOwnProperty('Total') ? (

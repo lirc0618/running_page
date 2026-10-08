@@ -1,13 +1,9 @@
-import MapboxLanguage from '@mapbox/mapbox-gl-language';
 import React, {useRef, useCallback, useState} from 'react';
-import Map, {Layer, Source, FullscreenControl, NavigationControl, MapRef} from 'react-map-gl';
-import {MapInstance} from "react-map-gl/src/types/lib";
+import Map, {Layer, Source, FullscreenControl, NavigationControl, MapRef, MapStyle} from 'react-map-gl/maplibre';
+import {Map as MapInstance} from 'maplibre-gl';
 import useActivities from '@/hooks/useActivities';
 import {
-  MAP_LAYER_LIST,
   IS_CHINESE,
-  ROAD_LABEL_DISPLAY,
-  MAPBOX_TOKEN,
   PROVINCE_FILL_COLOR,
   COUNTRY_FILL_COLOR,
   USE_DASH_LINE,
@@ -22,8 +18,21 @@ import RunMapButtons from './RunMapButtons';
 import styles from './style.module.css';
 import { FeatureCollection } from 'geojson';
 import { RPGeometry } from '@/static/run_countries';
-import './mapbox.css';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import LightsControl from "@/components/RunMap/LightsControl";
+
+const BASE_MAP_STYLE: MapStyle = {
+  version: 8,
+  sources: {
+    'carto-dark': {
+      type: 'raster',
+      tiles: ['https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'],
+      tileSize: 256,
+      attribution: '© OpenStreetMap contributors © CARTO',
+    },
+  },
+  layers: [{ id: 'carto-dark', type: 'raster', source: 'carto-dark' }],
+};
 
 interface IRunMapProps {
   title: string;
@@ -61,17 +70,9 @@ const RunMap = ({
     (ref: MapRef) => {
       if (ref !== null) {
         const map = ref.getMap();
-        if (map && IS_CHINESE) {
-            map.addControl(new MapboxLanguage({defaultLanguage: 'zh-Hans'}));
-        }
         // all style resources have been downloaded
         // and the first visually complete rendering of the base style has occurred.
         map.on('style.load', () => {
-          if (!ROAD_LABEL_DISPLAY) {
-            MAP_LAYER_LIST.forEach((layerId) => {
-              map.removeLayer(layerId);
-            });
-          }
           mapRef.current = ref;
           switchLayerVisibility(map, lights);
         });
@@ -133,9 +134,8 @@ const RunMap = ({
       {...viewState}
       onMove={onMove}
       style={style}
-      mapStyle="mapbox://styles/mapbox/dark-v10"
+      mapStyle={BASE_MAP_STYLE}
       ref={mapRefCallback}
-      mapboxAccessToken={MAPBOX_TOKEN}
     >
       <RunMapButtons changeYear={changeYear} thisYear={thisYear} />
       <Source id="data" type="geojson" data={geoData}>

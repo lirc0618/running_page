@@ -11,8 +11,14 @@ export const loadSvgComponent = async (
   path: string
 ): Promise<SvgComponent> => {
   try {
-    const module = await stats[path]();
-    return { default: module as ComponentType<any> };
+    const imported = await stats[path]();
+    // Vite's glob with `import: 'ReactComponent'` resolves directly to the
+    // component function. Keep support for the full SVGR module shape too.
+    const module = imported as { ReactComponent?: ComponentType<any> };
+    const component =
+      typeof imported === 'function' ? imported : module.ReactComponent;
+    if (!component) throw new Error(`SVG component export missing for ${path}`);
+    return { default: component };
   } catch (error) {
     console.error(error);
     return { default: FailedLoadSvg };

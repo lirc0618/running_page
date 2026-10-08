@@ -1,9 +1,4 @@
 // const
-const MAPBOX_TOKEN =
-  // For security reasons, please avoid using the default public token provided by Mapbox as much as possible.
-  // Instead, manually add a new token and apply URL restrictions.
-  // (please refer to https://github.com/yihong0618/running_page/issues/643#issuecomment-2042668580)
-  'pk.eyJ1IjoieWlob25nMDYxOCIsImEiOiJja2J3M28xbG4wYzl0MzJxZm0ya2Fua2p2In0.PNKfkeQwYuyGOTT_x9BJ4Q';
 const MUNICIPALITY_CITIES_ARR = [
   '北京市',
   '上海市',
@@ -12,21 +7,6 @@ const MUNICIPALITY_CITIES_ARR = [
   '香港特别行政区',
   '澳门特别行政区',
 ];
-const MAP_LAYER_LIST = [
-  'road-label',
-  'waterway-label',
-  'natural-line-label',
-  'natural-point-label',
-  'water-line-label',
-  'water-point-label',
-  'poi-label',
-  'airport-label',
-  'settlement-subdivision-label',
-  'settlement-label',
-  'state-label',
-  'country-label',
-];
-
 const USE_GOOGLE_ANALYTICS = false;
 const GOOGLE_ANALYTICS_TRACKING_ID = '';
 
@@ -38,8 +18,6 @@ const USE_DASH_LINE = false;
 const LINE_OPACITY = 0.4;
 // styling: map height
 const MAP_HEIGHT = 600;
-//set to `false` if you want to hide the road label characters
-const ROAD_LABEL_DISPLAY = true;
 //set to `true` if you want to display only the routes without showing the map.
 // 开启隐私模式（不显示地图近显示轨迹）：设置为'true'
 // 注意：此配置仅影响页面显示，数据保护请参考下方的"隐私保护"
@@ -102,11 +80,8 @@ export {
   GOOGLE_ANALYTICS_TRACKING_ID,
   CHINESE_LOCATION_INFO_MESSAGE_FIRST,
   CHINESE_LOCATION_INFO_MESSAGE_SECOND,
-  MAPBOX_TOKEN,
   MUNICIPALITY_CITIES_ARR,
-  MAP_LAYER_LIST,
   IS_CHINESE,
-  ROAD_LABEL_DISPLAY,
   INFO_MESSAGE,
   RUN_TITLES,
   USE_ANIMATION_FOR_GRID,
